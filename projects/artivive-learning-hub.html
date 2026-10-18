@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#e8e0d2">
+  <title>Artivive Learning Hub — Karla Šantić</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Archivo:wght@400;500;600;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+/* ── TOKENS ──────────────────────────────────────────── */
+:root {
+  --parchment:   #e8e0d2;
+  --parchment-d: #ddd4c2;
+  --ink:         #16120e;
+  --ink-2:       #3a342c;
+  --ink-3:       #7a6f62;
+  --ink-4:       #a89f93;
+  --rule:        rgba(22,18,14,0.14);
+  --rule-heavy:  rgba(22,18,14,0.35);
+  --accent:      #b5340a;
+  --white:       #f9f5ef;
+}
+
+/* ── RESET ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--parchment);
+  color: var(--ink);
+  font-family: 'Archivo', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── GRAIN ───────────────────────────────────────────── */
+.sc-grain {
+  position: fixed;
+  inset: -200%;
+  width: 400%; height: 400%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.038;
+  pointer-events: none;
+  z-index: 9000;
+  animation: grain-drift 7s steps(2) infinite;
+}
+@keyframes grain-drift {
+  0%   { transform: translate(0,0); }
+  10%  { transform: translate(-3%,-4%); }
+  30%  { transform: translate(2%, 5%); }
+  50%  { transform: translate(-4%, 1%); }
+  70%  { transform: translate(3%,-3%); }
+  90%  { transform: translate(-2%, 4%); }
+  100% { transform: translate(0,0); }
+}
+
+/* ── PROGRESS BAR ────────────────────────────────────── */
+.sc-progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--ink);
+  transform-origin: left;
+  transform: scaleX(0);
+  z-index: 9100;
+  transition: transform 0.1s linear;
+}
+
+/* ── MASTHEAD ────────────────────────────────────────── */
+.site-masthead {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 500;
+  height: 52px;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  padding: 0 40px;
+  border-bottom: 1px solid var(--rule-heavy);
+  background: rgba(232,224,210,0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.site-masthead-brand {
+  font-family: 'Archivo', sans-serif;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+}
+.site-masthead-brand em { color: var(--accent); font-style: normal; }
+.site-masthead-nav {
+  display: flex;
+  margin-right: 28px;
+}
+.site-masthead-nav a {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-decoration: none;
+  padding: 0 18px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  border-left: 1px solid var(--rule);
+  transition: color 0.15s, background 0.15s;
+}
+.site-masthead-nav a:hover { color: var(--ink); background: rgba(22,18,14,0.04); }
+.site-masthead-cta {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--parchment);
+  background: var(--ink);
+  text-decoration: none;
+  padding: 10px 22px;
+  transition: background 0.15s;
+}
+.site-masthead-cta:hover { background: var(--accent); }
+
+/* ── EDITORIAL ACT ───────────────────────────────────── */
+.editorial-act {
+  padding: 100px 40px;
+  border-top: 1px solid var(--rule-heavy);
+}
+.editorial-act:first-of-type { border-top: none; }
+
+/* ── PROJECT COVER ───────────────────────────────────── */
+.project-cover {
+  padding-top: calc(52px + 72px);
+  padding-bottom: 72px;
+  padding-left: 40px;
+  padding-right: 40px;
+  border-bottom: 1px solid var(--rule-heavy);
+}
+.project-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-decoration: none;
+  margin-bottom: 48px;
+  transition: color 0.15s;
+}
+.project-back:hover { color: var(--ink); }
+.project-back::before { content: '←'; font-size: 13px; }
+
+.project-meta-bar {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 28px;
+}
+.project-folio {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+.project-year {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--ink-4);
+}
+.project-category {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 3px 10px;
+}
+
+.project-headline {
+  font-family: 'Archivo', sans-serif;
+  font-size: clamp(52px, 10vw, 140px);
+  font-weight: 900;
+  line-height: 0.88;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 32px;
+}
+.project-headline em {
+  font-style: italic;
+  font-family: 'DM Serif Display', serif;
+  font-weight: 400;
+  font-size: 0.8em;
+  letter-spacing: -0.01em;
+  display: block;
+}
+
+.project-lede {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(18px, 2.2vw, 26px);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--ink-2);
+  max-width: 70ch;
+  border-left: 2px solid var(--rule-heavy);
+  padding-left: 24px;
+  margin-top: 16px;
+}
+
+/* ── CHAPTER ─────────────────────────────────────────── */
+.chapter-heading {
+  margin-bottom: 36px;
+}
+.chapter-heading p {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 10px;
+}
+.chapter-heading h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(32px, 4.5vw, 56px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.chapter-body {
+  font-size: 16px;
+  line-height: 1.85;
+  color: var(--ink-2);
+  max-width: 72ch;
+}
+.chapter-body p + p { margin-top: 16px; }
+.chapter-body strong { color: var(--ink); font-weight: 600; }
+
+/* ── VIDEO EMBED ─────────────────────────────────────── */
+.project-video {
+  margin-top: 40px;
+  aspect-ratio: 16/9;
+  width: 100%;
+  border: 1px solid var(--rule-heavy);
+}
+.project-video iframe {
+  width: 100%; height: 100%;
+  border: none;
+  display: block;
+}
+
+/* ── STAT STRIP ──────────────────────────────────────── */
+.project-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0;
+  border: 1px solid var(--rule-heavy);
+  margin-top: 48px;
+}
+.project-stat {
+  padding: 28px 32px;
+  border-right: 1px solid var(--rule-heavy);
+}
+.project-stat:last-child { border-right: none; }
+.stat-num {
+  font-family: 'Archivo', sans-serif;
+  font-size: 40px;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.stat-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* ── MORE WORKS ──────────────────────────────────────── */
+.more-works {
+  border-top: 1px solid var(--rule-heavy);
+}
+.more-works-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  padding: 18px 40px;
+  border-bottom: 1px solid var(--rule-heavy);
+}
+.more-works-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.more-work-card {
+  padding: 40px 40px;
+  border-right: 1px solid var(--rule-heavy);
+  text-decoration: none;
+  color: var(--ink);
+  transition: background 0.15s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 180px;
+}
+.more-work-card:last-child { border-right: none; }
+.more-work-card:hover { background: rgba(255,255,255,0.4); }
+.more-work-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--ink-4);
+  margin-bottom: 16px;
+}
+.more-work-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+.more-work-meta {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ── FOOTER ──────────────────────────────────────────── */
+.seo-footer {
+  background: var(--ink);
+  color: var(--parchment-d);
+  border-top: 1px solid rgba(232,224,210,0.12);
+}
+.seo-footer-inner {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding: 56px 40px 48px;
+  border-bottom: 1px solid rgba(232,224,210,0.1);
+}
+.seo-brand {
+  font-family: 'Archivo', sans-serif;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--parchment);
+  text-decoration: none;
+  display: block;
+  margin-bottom: 14px;
+}
+.seo-brand em { color: var(--accent); font-style: normal; }
+.seo-footer-brand p { font-size: 13px; line-height: 1.7; color: var(--ink-4); max-width: 32ch; }
+.seo-footer h2 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  margin-bottom: 16px;
+}
+.seo-footer ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.seo-footer ul a { font-size: 13px; color: rgba(232,224,210,0.65); text-decoration: none; transition: color 0.15s; }
+.seo-footer ul a:hover { color: var(--parchment); }
+.seo-footer-base { padding: 18px 40px; }
+.seo-footer-base-inner {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--ink-4);
+}
+
+/* ── COVER BUTTONS ───────────────────────────────────── */
+.cover-primary {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--parchment); background: var(--ink); text-decoration: none;
+  padding: 14px 28px; transition: background 0.15s; display: inline-block;
+}
+.cover-primary:hover { background: var(--accent); }
+.cover-secondary {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink); text-decoration: none; padding: 14px 28px;
+  border: 1px solid var(--rule-heavy); transition: background 0.15s; display: inline-block;
+}
+.cover-secondary:hover { background: rgba(22,18,14,0.06); }
+
+/* ── MOBILE ──────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .site-masthead { padding: 0 20px; }
+  .site-masthead-nav { display: none; }
+  .editorial-act { padding: 60px 20px; }
+  .project-cover { padding: calc(52px + 48px) 20px 48px; }
+  .project-headline { font-size: clamp(44px, 14vw, 80px); }
+  .more-works-label { padding: 14px 20px; }
+  .more-works-grid { grid-template-columns: 1fr; }
+  .more-work-card { border-right: none !important; border-bottom: 1px solid var(--rule-heavy); }
+  .more-work-card:last-child { border-bottom: none; }
+  .project-stats { grid-template-columns: 1fr 1fr; }
+  .project-stat { border-right: none; border-bottom: 1px solid var(--rule-heavy); }
+  .project-stat:nth-child(odd) { border-right: 1px solid var(--rule-heavy); }
+  .seo-footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; padding: 40px 20px; }
+  .seo-footer-base { padding: 16px 20px; }
+}
+  </style>
+</head>
+<body>
+  <div class="sc-grain" aria-hidden="true"></div>
+  <div class="sc-progress" id="sc-progress" aria-hidden="true"></div>
+
+  <header class="site-masthead">
+    <a class="site-masthead-brand" href="../index.html">KARLA <em>ŠANTIĆ</em></a>
+    <nav class="site-masthead-nav">
+      <a href="../index.html#work-section">Work</a>
+      <a href="../index.html#experience-section">Experience</a>
+      <a href="../index.html#about-section">About</a>
+    </nav>
+    <a class="site-masthead-cta" href="../index.html#contact-section">Get in touch</a>
+  </header>
+
+  <main>
+    <div class="project-cover">
+      <a class="project-back" href="../index.html#work-section">All projects</a>
+      <div class="project-meta-bar">
+        <span class="project-folio">Project 07</span>
+        <span class="project-year">Artivive</span>
+        <span class="project-category">Web · Email Design System</span>
+      </div>
+      <h1 class="project-headline">Artivive<br><em>Learning Hub</em></h1>
+      <p class="project-lede">Rebuilt a single-page e-learning course into a maintainable multi-page site — then extended the design system across a full suite of marketing emails.</p>
+    </div>
+
+    <section class="editorial-act">
+      <div class="chapter-heading">
+        <p>01 — The brief</p>
+        <h2>One file. Five modules. Twenty-three lessons.</h2>
+      </div>
+      <div class="chapter-body">
+        <p>Artivive Learning Hub is a self-paced course teaching users how to build augmented-reality artworks. The starting point was a single-file HTML prototype — functional, but impossible to maintain or scale. The job was to re-architect it into something the team could actually own long-term.</p>
+        <p>The result: a proper multi-page static website with a landing page plus one page per module, sharing a single stylesheet and script for maintainability, with cross-page navigation, per-module progress tracking, and an optional email-capture flow wired to marketing-automation webhooks.</p>
+      </div>
+      <div class="project-stats">
+        <div class="project-stat"><div class="stat-num">5</div><div class="stat-label">Course modules</div></div>
+        <div class="project-stat"><div class="stat-num">23</div><div class="stat-label">Lessons rebuilt</div></div>
+        <div class="project-stat"><div class="stat-num">3</div><div class="stat-label">Email templates delivered</div></div>
+      </div>
+    </section>
+
+    <section class="editorial-act">
+      <div class="chapter-heading">
+        <p>02 — Site architecture</p>
+        <h2>From prototype to maintainable product.</h2>
+      </div>
+      <div class="chapter-body">
+        <p>The information architecture was iterated throughout: moving from a gated, sequential structure to open module access and a streamlined, menu-first home page. Instructional screenshots were integrated into the relevant lessons, and UX features like configurable module access and optional email capture were added alongside the structural rebuild.</p>
+        <p>A recurring theme was practical deliverability — for example, packaging the site as fully self-contained files so it deploys cleanly to GitHub Pages without broken asset paths. Diagnosed and fixed static-site deployment issues by producing builds with inlined CSS/JS and base64-encoded image assets.</p>
+      </div>
+    </section>
+
+    <section class="editorial-act">
+      <div class="chapter-heading">
+        <p>03 — Design system</p>
+        <h2>One language across site and email.</h2>
+      </div>
+      <div class="chapter-body">
+        <p>Established a reusable visual design system — typography, colour tokens, and components — and applied it consistently across the course site and a full suite of marketing emails. The system was lightweight by design: something a small team could maintain without a dedicated designer on every update.</p>
+        <p>This shared visual language was then extended into email, giving Artivive's marketing communications a coherent, on-brand feel across every touchpoint.</p>
+      </div>
+    </section>
+
+    <section class="editorial-act">
+      <div class="chapter-heading">
+        <p>04 — Email development</p>
+        <h2>Responsive, dark-mode-ready, Outlook-safe.</h2>
+      </div>
+      <div class="chapter-body">
+        <p>Redesigned Artivive's marketing emails to modern standards: fluid responsive layouts, dark-mode support, and bulletproof rendering in Outlook — while keeping all ESP merge tags and links intact. Three templates were delivered: a transactional "top up your views" message, a rebuilt multi-story newsletter, and a documented, reusable automation template so future campaigns stay on-brand without starting from scratch.</p>
+      </div>
+      <div class="project-stats">
+        <div class="project-stat"><div class="stat-num">✓</div><div class="stat-label">Dark-mode ready</div></div>
+        <div class="project-stat"><div class="stat-num">✓</div><div class="stat-label">Outlook compatible</div></div>
+        <div class="project-stat"><div class="stat-num">✓</div><div class="stat-label">Merge tags preserved</div></div>
+      </div>
+    </section>
+
+    <section class="editorial-act">
+      <div class="chapter-heading">
+        <p>Tools & stack</p>
+        <h2>What was used to build it.</h2>
+      </div>
+      <div class="chapter-body">
+        <p>HTML · CSS · Vanilla JavaScript · Responsive &amp; accessible design · HTML email development (cross-client / dark mode / Outlook VML) · Design systems · Static-site deployment (GitHub Pages) · ActiveCampaign · Make.com integration</p>
+      </div>
+    </section>
+  </main>
+
+  <nav class="more-works" aria-label="More projects">
+    <div class="more-works-label">More work</div>
+    <div class="more-works-grid">
+      <a class="more-work-card" href="destress-fest.html">
+        <div class="more-work-num">05</div>
+        <div class="more-work-title">Destress Fest</div>
+        <div class="more-work-meta"><span>Branding</span><span>↗</span></div>
+      </a>
+      <a class="more-work-card" href="best-of-buas.html">
+        <div class="more-work-num">06</div>
+        <div class="more-work-title">Best of BUas</div>
+        <div class="more-work-meta"><span>Event Organisation</span><span>↗</span></div>
+      </a>
+    </div>
+  </nav>
+
+  <footer class="seo-footer">
+    <div class="seo-footer-inner">
+      <div class="seo-footer-brand">
+        <a class="seo-brand" href="../index.html">KARLA <em>ŠANTIĆ</em></a>
+        <p>Community manager, strategist, and creative producer. Building communities and experiences that mean something.</p>
+      </div>
+      <div><h2>Work</h2><ul>
+        <li><a href="buas-library-app.html">BUAs+ Library App</a></li>
+        <li><a href="westernized.html">Westernized</a></li>
+        <li><a href="destress-fest.html">Destress Fest</a></li>
+        <li><a href="best-of-buas.html">Best of BUas</a></li>
+      </ul></div>
+      <div><h2>Connect</h2><ul>
+        <li><a href="mailto:karla.santic@gmail.com">Email</a></li>
+        <li><a href="https://www.linkedin.com/in/karla-santic/" target="_blank">LinkedIn</a></li>
+      </ul></div>
+      <div><h2>Site</h2><ul>
+        <li><a href="../index.html#about-section">About</a></li>
+        <li><a href="../index.html#skills-section">Skills</a></li>
+        <li><a href="../index.html#experience-section">Experience</a></li>
+      </ul></div>
+    </div>
+    <div class="seo-footer-base"><div class="seo-footer-base-inner">© 2025 Karla Šantić · Vienna, AT</div></div>
+  </footer>
+
+  <script>
+    const bar = document.getElementById('sc-progress');
+    window.addEventListener('scroll', () => {
+      const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+      bar.style.transform = `scaleX(${Math.min(pct,1)})`;
+    }, { passive: true });
+  </script>
+</body>
+</html>
